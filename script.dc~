@@ -1,0 +1,26 @@
+remove_design -all
+analyze -library WORK -format verilog {/filespace/people/w/wagner/EVERYTHING/OPTIMIZED/551_twinkle_bunnies_OPTIMIZED.v}
+elaborate PIIR -architecture verilog -library WORK
+create_clock -name "clk1" -period 5.5 -waveform { 0 2.75  }  { Clk1  }
+create_clock -name "clk2" -period 5.5 -waveform { 2.75 5.5  }  { Clk2  }
+
+set_input_delay -clock clk1  -max -rise 2 "{AD[13]} {Const[0]} {AD[6]} {AD[11]} {AD[4]} {AD[2]} {AD[9]} {AD[14]} {AD[0]} {Const[1]} {AD[7]} {AD[12]} {AD[5]} {AD[10]} {AD[3]} {Const[3]} CE {AD[15]} {AD[1]} {Const[2]} {AD[8]}"
+set_input_delay -clock clk1 -max -fall 2 "{AD[13]} {Const[0]} {AD[6]} {AD[11]} {AD[4]} {AD[2]} {AD[9]} {AD[14]} {AD[0]} {Const[1]} {AD[7]} {AD[12]} {AD[5]} {AD[10]} {AD[3]} {Const[3]} CE {AD[15]} {AD[1]} {Const[2]} {AD[8]}"
+set_input_delay -clock clk1 -min -rise 2 "{AD[13]} {Const[0]} {AD[6]} {AD[11]} {AD[4]} {AD[2]} {AD[9]} {AD[14]} {AD[0]} {Const[1]} {AD[7]} {AD[12]} {AD[5]} {AD[10]} {AD[3]} {Const[3]} CE {AD[15]} {AD[1]} {Const[2]} {AD[8]}"
+set_input_delay -clock clk1  -min -fall 2 "{AD[13]} {Const[0]} {AD[6]} {AD[11]} {AD[4]} {AD[2]} {AD[9]} {AD[14]} {AD[0]} {Const[1]} {AD[7]} {AD[12]} {AD[5]} {AD[10]} {AD[3]} {Const[3]} CE {AD[15]} {AD[1]} {Const[2]} {AD[8]}"
+
+set_input_delay -clock clk2  -max -rise 2 "CFG PU"
+set_input_delay -clock clk2 -max -fall 2 "CFG PU"
+set_input_delay -clock clk2 -min -rise 2 "CFG PU"
+set_input_delay -clock clk2  -min -fall 2 "CFG PU"
+
+#set_max_area 0
+#set_cost_priority -delay
+
+#ungroup -all
+#uniquify
+#compile
+compile_ultra
+
+report_area > ./results_OPTIMIZED/area8.txt
+report_timing > ./results_OPTIMIZED/timing8.txt
